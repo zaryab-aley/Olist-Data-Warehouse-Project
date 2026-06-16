@@ -72,7 +72,7 @@ seller_city nvarchar(50),
 seller_state nvarchar(5)
 )
 
-create table product_category_name_translation(
+create table bronze.product_category_name_translation(
 product_category_name nvarchar(50),
 product_category_name_english nvarchar(50)
 )
