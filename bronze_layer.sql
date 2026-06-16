@@ -3,7 +3,7 @@ if object_id ('bronze.customers_dataset', 'U') is not null
 create table bronze.customers_dataset(
 customer_id nvarchar(50),
 customer_unique_id nvarchar(50),
-customer_zip_code_prefix int,
+customer_zip_code_prefix varchar(20),
 customer_city nvarchar(50),
 customer_state nvarchar(5)
 )
