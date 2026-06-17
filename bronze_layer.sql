@@ -11,11 +11,11 @@ customer_state nvarchar(5)
 if object_id ('bronze.geolocation_dataset', 'U') is not null
 	drop table bronze.geolocation_dataset
 create table bronze.geolocation_dataset(
-geolocation_zip_code_prefix int,
+geolocation_zip_code_prefix varchar(50),
 geolocation_lat float,
 geolocation_lng float,
 geolocation_city nvarchar(50),
-geolocation_state nvarchar(5)
+geolocation_state nvarchar(50)
 )
 
 if object_id ('bronze.order_items_dataset', 'U') is not null
@@ -45,11 +45,11 @@ if object_id ('bronze.order_reviews_dataset', 'U') is not null
 create table bronze.order_reviews_dataset(
 review_id nvarchar(50),
 order_id nvarchar(50),
-review_score int,
-review_comment_title nvarchar(200),
-review_comment_message nvarchar(200),
-review_creation_date datetime2,
-review_answer_timestamp datetime2
+review_score nvarchar(50),
+review_comment_title nvarchar(max),
+review_comment_message nvarchar(max),
+review_creation_date nvarchar(100),
+review_answer_timestamp nvarchar(100)
 )
 
 if object_id ('bronze.orders_dataset', 'U') is not null
@@ -83,9 +83,9 @@ if object_id ('bronze.sellers_dataset', 'U') is not null
 	drop table bronze.sellers_dataset
 create table bronze.sellers_dataset(
 seller_id nvarchar(50),
-seller_zip_code_prefix int,
+seller_zip_code_prefix nvarchar(50),
 seller_city nvarchar(50),
-seller_state nvarchar(5)
+seller_state nvarchar(50)
 )
 
 if object_id ('bronze.product_category_name_translation', 'U') is not null
