@@ -24,6 +24,7 @@ dwh_create_date datetime2 default getdate(),
 if object_id ('silver.order_items_dataset', 'U') is not null
 	drop table silver.order_items_dataset
 create table silver.order_items_dataset(
+order_item_pk int,
 order_id nvarchar(50),
 order_item_id nvarchar(50),
 product_id nvarchar(50),

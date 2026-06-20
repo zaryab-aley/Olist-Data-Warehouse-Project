@@ -42,3 +42,21 @@ select
     min(geolocation_state) as geolocation_state
 from cleaned_geolocation
 group by geolocation_zip_code_prefix;
+
+insert into silver.order_items_dataset(
+order_item_pk, order_id, order_item_id, product_id, seller_id, shipping_limit_date, price, freight_value)
+select
+    row_number() over(order by order_id, order_item_id) as order_item_pk,
+    *
+from
+(
+    select
+        lower(trim(replace(order_id, '"', ''))) as order_id,
+        cast(order_item_id as int) as order_item_id,
+        lower(trim(replace(product_id, '"', ''))) as product_id,
+        lower(trim(replace(seller_id, '"', ''))) as seller_id,
+        cast(shipping_limit_date as datetime2) as shipping_limit_date,
+        cast(price as decimal(10,2)) as price,
+        cast(freight_value as decimal(10,2)) as freight_value
+    from bronze.order_items_dataset
+) as t;
