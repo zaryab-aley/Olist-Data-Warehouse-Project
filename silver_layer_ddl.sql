@@ -38,6 +38,7 @@ dwh_create_date datetime2 default getdate(),
 if object_id ('silver.order_payments_dataset', 'U') is not null
 	drop table silver.order_payments_dataset
 create table silver.order_payments_dataset(
+order_payment_pk int,
 order_id nvarchar(50),
 payment_sequential int,
 payment_type nvarchar(50),

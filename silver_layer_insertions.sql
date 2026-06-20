@@ -60,3 +60,25 @@ from
         cast(freight_value as decimal(10,2)) as freight_value
     from bronze.order_items_dataset
 ) as t;
+
+insert into silver.order_payments_dataset(
+order_payment_pk, order_id, payment_sequential, payment_type, payment_installments, payment_value
+)
+
+select
+    row_number() over(order by order_id, payment_sequential) as order_payment_pk,
+    *
+from
+(
+    select
+        lower(trim(replace(order_id, '"', ''))) as order_id,
+        cast(payment_sequential as int) as payment_sequential,
+        lower(trim(replace(payment_type, '"', ''))) as payment_type,
+        cast(payment_installments as int) as payment_installments,
+        cast(payment_value as decimal(10,2)) as payment_value
+    from bronze.order_payments_dataset
+) as t;
+
+select
+    *
+from silver.order_payments_dataset
