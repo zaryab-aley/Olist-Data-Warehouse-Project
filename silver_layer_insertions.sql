@@ -13,7 +13,7 @@ select
 	trim(customer_state) as customer_state
 from bronze.customers_dataset
 
-with cleaned as (
+with cleaned_geolocation as (
     select
         replace(geolocation_zip_code_prefix, '"', '') as geolocation_zip_code_prefix,
         cast(geolocation_lat as float) as geolocation_lat,
@@ -40,5 +40,5 @@ select
     avg(geolocation_lng) as geolocation_lng,
     min(geolocation_city) as geolocation_city,
     min(geolocation_state) as geolocation_state
-from cleaned
+from cleaned_geolocation
 group by geolocation_zip_code_prefix;
