@@ -98,3 +98,27 @@ select
 	cast(review_creation_date as datetime2) as review_creation_date,
 	cast(review_answer_timestamp as datetime2) as review_answer_timestamp
 from bronze.order_reviews_dataset
+
+--not exec yet
+select
+	lower(trim(replace(order_id, '"', ''))) as order_id,
+	lower(trim(replace(customer_id, '"', ''))) as customer_id,
+	lower(trim(replace(order_status, '"', ''))) as order_status,
+	order_purchase_timestamp,
+	order_approved_at,
+	order_delivered_carrier_date,
+	order_delivered_customer_date,
+	order_estimated_delivery_date,
+	case
+		when order_approved_at is null then 1
+		else 0
+	end as approval_date_missing,
+	case
+		when order_delivered_carrier_date is null then 1
+		else 0
+	end as delivered_carrier_date_missing,
+	case
+		when order_delivered_customer_date is null then 1
+		else 0
+	end as delivered_customer_date_missing
+from bronze.orders_dataset
