@@ -79,6 +79,22 @@ from
     from bronze.order_payments_dataset
 ) as t;
 
+insert into silver.order_reviews_dataset(
+review_id, order_id, review_score, review_comment_title, review_comment_message, review_creation_date, review_answer_timestamp
+)
+
 select
-    *
-from silver.order_payments_dataset
+	lower(trim(review_id)) as review_id,
+	lower(trim(order_id)) as order_id,
+	cast(review_score as int) as review_score,
+	case
+		when review_comment_title is null then 'no title'
+		else lower(trim(review_comment_title))
+	end as review_comment_title,
+	case
+		when review_comment_message is null then 'no review'
+		else lower(trim(review_comment_message))
+	end as review_comment_message,
+	cast(review_creation_date as datetime2) as review_creation_date,
+	cast(review_answer_timestamp as datetime2) as review_answer_timestamp
+from bronze.order_reviews_dataset
