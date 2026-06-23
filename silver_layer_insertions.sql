@@ -99,7 +99,10 @@ select
 	cast(review_answer_timestamp as datetime2) as review_answer_timestamp
 from bronze.order_reviews_dataset
 
---not exec yet
+insert into silver.orders_dataset(
+order_id, customer_id, order_status, order_purchase_timestamp, order_approved_at, order_delivered_carrier_date, order_delivered_customer_date, order_estimated_delivery_date, approval_date_missing, delivered_carrier_date_missing, delivered_customer_date_missing
+)
+
 select
 	lower(trim(replace(order_id, '"', ''))) as order_id,
 	lower(trim(replace(customer_id, '"', ''))) as customer_id,
@@ -122,3 +125,12 @@ select
 		else 0
 	end as delivered_customer_date_missing
 from bronze.orders_dataset
+
+insert into silver.product_category_name_translation(
+product_category_name, product_category_name_english
+)
+
+select distinct
+	lower(trim(replace(product_category_name, '_', ' '))) as product_category_name,
+	lower(trim(replace(product_category_name_english, '_', ' '))) as product_category_name_english
+from bronze.product_category_name_translation

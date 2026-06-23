@@ -71,6 +71,9 @@ order_approved_at datetime2,
 order_delivered_carrier_date datetime2,
 order_delivered_customer_date datetime2,
 order_estimated_delivery_date datetime2,
+approval_date_missing int,
+delivered_carrier_date_missing int,
+delivered_customer_date_missing int,
 dwh_create_date datetime2 default getdate(),
 )
 
