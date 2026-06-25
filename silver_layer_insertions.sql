@@ -134,3 +134,31 @@ select distinct
 	lower(trim(replace(product_category_name, '_', ' '))) as product_category_name,
 	lower(trim(replace(product_category_name_english, '_', ' '))) as product_category_name_english
 from bronze.product_category_name_translation
+
+insert into silver.products_dataset(
+product_id, product_category_name, product_name_length, product_description_length, missing_product_information, product_photos_qty, missing_product_photos_qty, product_weight_g, product_length_cm, product_height_cm, product_width_cm, missing_dimensions
+)
+
+select
+	lower(trim(replace(product_id, '"', ''))) as product_id,
+	coalesce(lower(trim(replace(product_category_name, '_', ' '))), 'unknown') as product_category_name,
+	product_name_lenght as product_name_length,
+	product_description_lenght as product_description_length,
+	case
+		when product_name_lenght is null or product_description_lenght is null then 1
+		else 0
+	end as missing_product_information,
+	product_photos_qty,
+	case
+		when product_photos_qty is null then 1
+		else 0
+	end as missing_product_photos_qty,
+	product_weight_g,
+	product_length_cm,
+	product_height_cm,
+	product_width_cm,
+	case
+		when product_weight_g is null or product_length_cm is null or product_height_cm is null or product_width_cm is null then 1
+		else 0
+	end as missing_dimensions
+from bronze.products_dataset

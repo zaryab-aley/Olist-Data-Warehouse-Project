@@ -82,13 +82,16 @@ if object_id ('silver.products_dataset', 'U') is not null
 create table silver.products_dataset(
 product_id nvarchar(50),
 product_category_name nvarchar(50),
-product_name_lenght int,
-product_description_lenght int,
+product_name_length int,
+product_description_length int,
+missing_product_information int,
 product_photos_qty int,
+missing_product_photos_qty int,
 product_weight_g int,
 product_length_cm int,
 product_height_cm int,
 product_width_cm int,
+missing_dimensions int,
 dwh_create_date datetime2 default getdate(),
 )
 
